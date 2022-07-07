@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import FirstTab from "./component/firstTab/FirstTab";
+import SecondTab from "./component/secondTab/SecondTab";
+import ScrollButton from "./component/scrollButton/ScrollButton";
+
+import styles from "./App.module.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [firstTab, setFirstTab] = useState(true);
+	return (
+		<div className={styles.container}>
+			<h1 id={styles.Heading}>OMDB API APP</h1>
+			<div className={styles.buttons}>
+				<button
+					className={`${firstTab ? styles.active : ""} `}
+					onClick={() => {
+						setFirstTab(true);
+					}}
+				>
+					First Tab
+				</button>
+
+				<button
+					className={`${firstTab ? "" : styles.active}`}
+					onClick={() => {
+						setFirstTab(false);
+					}}
+				>
+					Second Tab
+				</button>
+			</div>
+			{firstTab ? <FirstTab /> : <SecondTab />}
+			<ScrollButton />
+		</div>
+	);
 }
 
 export default App;

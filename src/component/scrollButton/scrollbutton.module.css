@@ -1,0 +1,19 @@
+.TopButton {
+	position: fixed;
+	width: 48px;
+	height: 48px;
+	left: 20px;
+	bottom: 10px;
+	background: none;
+	border-radius: 50%;
+}
+.TopButton img {
+	width: 100%;
+	cursor: pointer;
+}
+.TopButton:hover {
+	transform: scale(1.1);
+	transform: translateY(-5px);
+	transition: all 0.3s;
+	border: 2px solid #f5c518;
+}

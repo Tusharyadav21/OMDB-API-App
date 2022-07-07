@@ -1,0 +1,39 @@
+.container {
+	background-color: #121212;
+	text-align: center;
+}
+#Heading {
+	margin: 0;
+	padding: 0.5rem;
+	background-color: #f5c518;
+	font-weight: 500;
+	font-size: 1.5rem;
+	color: black;
+	text-align: left;
+}
+.buttons {
+	width: 99%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 2px 2px 1rem 2px;
+}
+.buttons button {
+	width: 50%;
+	font-size: 1.3rem;
+	font-weight: 600;
+	padding: 1.5rem 0;
+}
+.buttons button:hover {
+	transform: translateY(-5px);
+	transition: all 0.3s ease-in-out;
+}
+.active {
+	color: #fff;
+}
+button {
+	background: none;
+	border: none;
+	color: rgba(255, 255, 255, 0.487);
+	cursor: pointer;
+}
