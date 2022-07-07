@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Modal from "../modal/Modal";
 import { BounceLoader } from "react-spinners";
 import styles from "./firstTab.module.css";
@@ -11,22 +11,21 @@ const FirstTab = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(null);
 	const [showPagination, setShowPagination] = useState(false);
-	const [page, setPage] = useState(1);
-	const [pages, setPages] = useState(1);
+	const totalResults = useRef(1);
+	const pageCount = useRef(1);
 
 	const fetchData = async () => {
 		setLoading(true);
 		try {
 			const response = await fetch(
-				`http://www.omdbapi.com/?s=${name}&y=${year}&page=${page}&apikey=a94a9229`
+				`http://www.omdbapi.com/?s=${name}&y=${year}&page=${pageCount.current}&apikey=a94a9229`
 			);
 
 			const result = await response.json();
-			const results = result.totalResults / 10;
-			const pages = results >= parseInt(results) ? parseInt(results) + 1 : parseInt(results);
+			const x = result.totalResults / 10;
+			totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
 
 			setData(result);
-			setPages(pages);
 			setShowPagination(true);
 		} catch (err) {
 			console.error(err.message);
@@ -41,16 +40,14 @@ const FirstTab = () => {
 	};
 
 	const handleNext = () => {
-		if (pages >= page) {
-			setPage(page + 1);
-			console.log(page);
+		if (pageCount.current < totalResults.current) {
+			pageCount.current += 1;
 			fetchData();
 		}
 	};
 	const handlePrev = () => {
-		if (page >= 1) {
-			setPage(page - 1);
-			console.log(page);
+		if (pageCount.current > 1) {
+			pageCount.current -= 1;
 			fetchData();
 		}
 	};
@@ -119,7 +116,7 @@ const FirstTab = () => {
 			{showPagination ? (
 				<div className={styles.pagination}>
 					<div>
-						Page <span>{page}</span> of {pages} {"  "}
+						Page <span>{pageCount.current}</span> of {totalResults.current} {"  "}
 					</div>
 					<div>
 						<button onClick={handlePrev}>Prev</button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BounceLoader } from "react-spinners";
 import styles from "./secondTab.module.css";
 
@@ -8,22 +8,21 @@ const SecondTab = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(0);
 	const [showPagination, setShowPagination] = useState(false);
-	const [page, setPage] = useState(1);
-	const [pages, setPages] = useState(1);
+	const totalResults = useRef(0);
+	const pageCount = useRef(1);
 
 	const fetchData = async () => {
 		setLoading(true);
 		try {
 			const response = await fetch(
-				`http://www.omdbapi.com/?s=${name}&y=${year}&page=${page}&apikey=a94a9229`
+				`http://www.omdbapi.com/?s=${name}&y=${year}&page=${pageCount.current}&apikey=a94a9229`
 			);
 
 			const result = await response.json();
-			const results = result.totalResults / 10;
-			const pages = results >= parseInt(results) ? parseInt(results) + 1 : parseInt(results);
+			const x = result.totalResults / 10;
+			totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
 
 			setData(result);
-			setPages(pages);
 			setShowPagination(true);
 		} catch (err) {
 			console.error(err.message);
@@ -38,16 +37,14 @@ const SecondTab = () => {
 	};
 
 	const handleNext = () => {
-		if (pages >= page) {
-			setPage(page + 1);
-			console.log(page);
+		if (pageCount.current < totalResults.current) {
+			pageCount.current += 1;
 			fetchData();
 		}
 	};
 	const handlePrev = () => {
-		if (page >= 1) {
-			setPage(page - 1);
-			console.log(page);
+		if (pageCount.current > 1) {
+			pageCount.current -= 1;
 			fetchData();
 		}
 	};
@@ -104,7 +101,7 @@ const SecondTab = () => {
 			{showPagination ? (
 				<div className={styles.pagination}>
 					<div>
-						Page <span>{page}</span> of {pages} {"  "}
+						Page <span>{pageCount.current}</span> of {totalResults.current} {"  "}
 					</div>
 					<div>
 						<button onClick={handlePrev}>Prev</button>
