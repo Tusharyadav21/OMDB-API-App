@@ -14,7 +14,7 @@ const Modal = ({ setModal, el }) => {
 			.then(() => setLoading(false));
 	}, [el.imdbID]);
 
-	console.log(data);
+	// console.log(data);
 	return (
 		<div className={styles.modalBackground}>
 			<div className={styles.modalContainer}>
@@ -83,7 +83,9 @@ const Modal = ({ setModal, el }) => {
 							</p>
 						</div>
 					) : (
-						<BounceLoader color='#f5c518' />
+						<div className={styles.modalSpinner}>
+							<BounceLoader color='#f5c518' />
+						</div>
 					)}
 				</div>
 			</div>
