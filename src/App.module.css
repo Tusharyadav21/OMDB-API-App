@@ -1,22 +1,24 @@
 .container {
-	background-color: #121212;
-	text-align: center;
-}
-#Heading {
-	margin: 0;
-	padding: 0.5rem;
-	background-color: #f5c518;
-	font-weight: 500;
-	font-size: 1.5rem;
-	color: black;
-	text-align: left;
-}
-.buttons {
-	width: 99%;
+	padding: 1rem 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 2px 2px 1rem 2px;
+}
+
+#Heading {
+	margin: 0 0 0 1rem;
+	padding: 0.5rem;
+	background-color: #f5c518;
+	font-weight: 500;
+	font-size: 1.2rem;
+	color: black;
+	border-radius: 8px;
+	cursor: default;
+}
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .buttons button {
 	width: 50%;
@@ -40,27 +42,33 @@ button {
 form {
 	display: flex;
 	justify-content: center;
-	margin-bottom: 1rem;
 }
 form input {
 	width: 25vw;
 	max-width: 240px;
-	margin: 0.3rem 1rem;
-	padding: 0.8rem;
-	border-radius: 24px;
-	font-size: 1.2rem;
+	margin: 0.3rem 0.5rem;
+	padding: 0.4rem;
+	border-radius: 6px;
+	font-size: 1rem;
+	border: none;
+	outline: none;
 }
 
 #submitBtn {
-	background-color: #f5c518f2;
-	max-width: 150px;
+	color: white;
+	max-width: 80px;
+	color: black;
+	background-color: #f5c518;
 }
 #submitBtn:hover {
 	cursor: pointer;
 	transform: translateY(-5px);
 	transition: all 0.3s ease-in-out;
-	background-color: #f5c518;
-	outline: 1px solid #f5c518f2;
+}
+.pagination {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 .pagination span {
 	color: #f5c518;
@@ -78,7 +86,11 @@ form input {
 	outline: 1px solid #f5c518;
 }
 @media screen and (max-width: 860px) {
+	.container {
+		flex-direction: column;
+	}
 	form {
+		margin-top: 1rem;
 		flex-direction: column;
 		align-items: center;
 	}

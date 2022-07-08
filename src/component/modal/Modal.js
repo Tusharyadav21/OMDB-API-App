@@ -34,52 +34,72 @@ const Modal = ({ setModal, el }) => {
 					/>
 					{!loading ? (
 						<div className={styles.TextContainer}>
+							<h1>{el.Title}</h1>
 							<div className={styles.col}>
-								<div>
-									<h1>{el.Title}</h1>
-									<p>
-										Type : <span>{data.Type[0].toUpperCase() + data.Type.substring(1)}</span>
-									</p>
-									<p>
-										Language : <span>{data.Language}</span>
-									</p>
-									<p>
+								<section>
+									<div>
+										<span>{data.Year}</span>
+										&nbsp;&nbsp;&nbsp;
+										<span>{data.Type[0].toUpperCase() + data.Type.substring(1)}</span>{" "}
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<span>{data.Genre}</span>
+									</div>
+									{/* <div>
+										<span>{data.Genre}</span>
+									</div> */}
+									<div>
+										Available in : <span>{data.Language}</span>
+									</div>
+									<div>
 										Runtime : <span>{data.Runtime}</span>
-									</p>
-									<p>
-										Awards : <span>{data.Awards}</span>
-									</p>
+									</div>
+									<div>
+										Stars : <span>{data.Actors}</span>
+									</div>
+								</section>
+								<section>
+									<div>
+										IMDB :{" "}
+										<span>
+											{data.imdbRating}/10
+											{/* <svg
+												xmlns='http://www.w3.org/2000/svg'
+												width='24'
+												height='24'
+												class='ipc-icon ipc-icon--star sc-7ab21ed2-4 hLFdut'
+												id='iconContext-star'
+												viewBox='0 0 24 24'
+												fill='#f5c518'
+												role='presentation'
+											>
+												<path d='M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z'></path>
+											</svg> */}
+										</span>
+									</div>
+									<div>
+										IMDB Votes : <span>{data.imdbVotes}</span>
+									</div>
+									<div>
+										Metascore : <span>{data.Metascore}</span>
+									</div>
+									<div>
+										BoxOffice : <span>{data.imdbRating >= 7 ? "Hit" : "Flop"}</span>
+									</div>
+								</section>
+							</div>
+							<br />
+							<section>
+								<div>
+									<span>{data.Plot}</span>
+								</div>
+								<br />
+								<div>
+									Writer : <span>{data.Writer}</span>
 								</div>
 								<div>
-									<p>
-										Released on : <span>{data.Released}</span>
-									</p>
-									<p>
-										IMDB Rating : <span>{data.imdbRating}</span>
-									</p>
-									<p>
-										IMDB Votes : <span>{data.imdbVotes}</span>
-									</p>
-									<p>
-										Metascore : <span>{data.Metascore}</span>
-									</p>
-									<p>
-										BoxOffice : <span>{data.imdbRating >= 7 ? "Hit" : "Flop"}</span>
-									</p>
+									Awards : <span>{data.Awards}</span>
 								</div>
-							</div>
-							<p>
-								Genre : <span>{data.Genre}</span>
-							</p>
-							<p>
-								Actors : <span>{data.Actors}</span>
-							</p>
-							<p>
-								Writer : <span>{data.Writer}</span>
-							</p>
-							<p>
-								Plot : <span>{data.Plot}</span>
-							</p>
+							</section>
 						</div>
 					) : (
 						<Loader />
