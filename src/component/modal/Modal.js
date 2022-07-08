@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BounceLoader } from "react-spinners";
+import Loader from "../loader/Loader";
 import styles from "./modal.module.css";
 
 const Modal = ({ setModal, el }) => {
@@ -68,7 +68,6 @@ const Modal = ({ setModal, el }) => {
 									</p>
 								</div>
 							</div>
-
 							<p>
 								Genre : <span>{data.Genre}</span>
 							</p>
@@ -83,9 +82,7 @@ const Modal = ({ setModal, el }) => {
 							</p>
 						</div>
 					) : (
-						<div className={styles.modalSpinner}>
-							<BounceLoader color='#f5c518' />
-						</div>
+						<Loader />
 					)}
 				</div>
 			</div>

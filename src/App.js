@@ -94,7 +94,7 @@ function App() {
 						value={year}
 						onChange={(e) => setYear(e.target.value)}
 					/>
-					<input type='submit' value='Search' />
+					<input id={styles.submitBtn} type='submit' value='Search' />
 				</form>
 			</div>
 			{firstTab ? (

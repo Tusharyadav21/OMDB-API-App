@@ -1,21 +1,12 @@
 import React from "react";
-import { BounceLoader } from "react-spinners";
+import Loader from "../loader/Loader";
 import styles from "./secondTab.module.css";
 
 const SecondTab = (props) => {
 	return (
 		<div className={styles.container}>
 			{props.loading ? (
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						height: "300px",
-					}}
-				>
-					<BounceLoader color='#f5c518' />
-				</div>
+				<Loader />
 			) : (
 				<div className={styles.cardContainer}>
 					{props.data.Search?.map((el, i) => (

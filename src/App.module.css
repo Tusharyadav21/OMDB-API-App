@@ -2,7 +2,6 @@
 	background-color: #121212;
 	text-align: center;
 }
-
 #Heading {
 	margin: 0;
 	padding: 0.5rem;
@@ -50,6 +49,33 @@ form input {
 	padding: 0.8rem;
 	border-radius: 24px;
 	font-size: 1.2rem;
+}
+
+#submitBtn {
+	background-color: #f5c518f2;
+	max-width: 150px;
+}
+#submitBtn:hover {
+	cursor: pointer;
+	transform: translateY(-5px);
+	transition: all 0.3s ease-in-out;
+	background-color: #f5c518;
+	outline: 1px solid #f5c518f2;
+}
+.pagination span {
+	color: #f5c518;
+}
+.pagination button {
+	border-radius: 12px;
+	font-size: 16px;
+	padding: 0.5rem;
+	margin: 0.5rem;
+}
+.pagination button:hover {
+	color: #f5c518;
+	transform: translateY(-3px);
+	transition: all 0.3s ease-in-out;
+	outline: 1px solid #f5c518;
 }
 @media screen and (max-width: 860px) {
 	form {

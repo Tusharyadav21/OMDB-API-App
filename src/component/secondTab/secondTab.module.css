@@ -45,21 +45,6 @@
 		grid-template-columns: auto auto auto;
 	}
 }
-.pagination span {
-	color: #f5c518;
-}
-.pagination button {
-	border-radius: 12px;
-	font-size: 16px;
-	padding: 0.5rem;
-	margin: 0.5rem;
-}
-.pagination button:hover {
-	color: #f5c518;
-	transform: translateY(-3px);
-	transition: all 0.3s ease-in-out;
-	outline: 1px solid #f5c518;
-}
 @media screen and (max-width: 860px) {
 	.cardContainer {
 		grid-template-columns: auto auto;

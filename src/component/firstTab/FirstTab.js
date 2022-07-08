@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import Loader from "../loader/Loader";
 import Modal from "../modal/Modal";
-import { BounceLoader } from "react-spinners";
 import styles from "./firstTab.module.css";
 
 const FirstTab = (props) => {
@@ -15,16 +15,7 @@ const FirstTab = (props) => {
 	return (
 		<div className={styles.container}>
 			{props.loading ? (
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						height: "300px",
-					}}
-				>
-					<BounceLoader color='#f5c518' />
-				</div>
+				<Loader />
 			) : (
 				<div className={styles.cardContainer}>
 					{props.data.Search?.map((el, i) => (
