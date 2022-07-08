@@ -6,7 +6,6 @@
 }
 
 #Heading {
-	margin: 0 0 0 1rem;
 	padding: 0.5rem;
 	background-color: #f5c518;
 	font-weight: 500;
@@ -55,6 +54,7 @@ form input {
 }
 
 #submitBtn {
+	margin: 0;
 	color: white;
 	max-width: 80px;
 	color: black;
