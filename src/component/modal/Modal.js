@@ -89,7 +89,7 @@ const Modal = ({ setModal, el }) => {
 							</div>
 							<br />
 							<section>
-								<div>
+								<div className={styles.plot}>
 									<span>{data.Plot}</span>
 								</div>
 								<br />
