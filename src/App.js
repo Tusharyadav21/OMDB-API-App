@@ -24,7 +24,6 @@ function App() {
 		setName(name.trim());
 		if (name) {
 			setLoading(true);
-			// pageCount.current = 1;
 			if ([name + year + pageCount.current] in prevData) {
 				const result = prevData[name + year + pageCount.current];
 
@@ -48,7 +47,6 @@ function App() {
 					setPrevData({ [name + year + pageCount.current]: result, ...prevData });
 					setData(result);
 					setShowPagination(true);
-					// console.log(prevData);
 				} catch (err) {
 					console.log("Error: " + err.message);
 				} finally {
