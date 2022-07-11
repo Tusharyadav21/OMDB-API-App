@@ -54,7 +54,8 @@
 .Modal_Tabs_Container button {
 	color: black;
 	outline: 2px solid #f5c518;
-	margin-right: 1rem;
+	margin-right: 0.8rem;
+	margin-top: 0.8rem;
 	border-radius: 8px;
 	padding: 0.5rem;
 	font-size: 1.2rem;
@@ -100,8 +101,7 @@
 	.col {
 		flex-direction: column;
 	}
-	.plot {
-		width: 100%;
+	.Modal_Tabs_Container button {
 	}
 }
 
