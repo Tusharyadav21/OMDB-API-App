@@ -22,22 +22,37 @@ function App() {
 		if (name) {
 			setLoading(true);
 			// pageCount.current = 1;
-			try {
-				const response = await fetch(
-					`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
-						pageCount.current
-					}&apikey=a94a9229`
-				);
+			if (sessionStorage.getItem(`${name}+${year}+${pageCount.current}`) === null) {
+				try {
+					const response = await fetch(
+						`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
+							pageCount.current
+						}&apikey=a94a9229`
+					);
 
-				const result = await response.json();
+					const result = await response.json();
+
+					console.log(result);
+
+					const x = result.totalResults / 10;
+					totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
+
+					sessionStorage.setItem(`${name}+${year}+${pageCount.current}`, JSON.stringify(result));
+
+					setData(result);
+					setShowPagination(true);
+				} catch (err) {
+					console.log("Error: " + err.message);
+				} finally {
+					setLoading(false);
+				}
+			} else {
+				const result = JSON.parse(sessionStorage.getItem(`${name}+${year}+${pageCount.current}`));
+				// console.log(result);
 				const x = result.totalResults / 10;
 				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-
 				setData(result);
 				setShowPagination(true);
-			} catch (err) {
-				console.error(err.message);
-			} finally {
 				setLoading(false);
 			}
 		}
@@ -62,9 +77,11 @@ function App() {
 		}
 	};
 
+	// console.log(data);
+
 	return (
 		<>
-			<div className={styles.container}>
+			<div className={styles.nav_container}>
 				<button id={styles.Heading}>OMDB API APP</button>
 				<div>
 					<form onSubmit={handleSubmit}>
@@ -89,11 +106,13 @@ function App() {
 				</div>
 			</div>
 			<div>
-				<div className={styles.buttons}>
+				<div className={styles.Tab}>
 					<button
 						className={`${firstTab ? styles.active : ""} `}
 						onClick={() => {
 							setFirstTab(true);
+							pageCount.current = 1;
+							fetchData();
 						}}
 					>
 						Details
@@ -102,12 +121,19 @@ function App() {
 						className={`${firstTab ? "" : styles.active}`}
 						onClick={() => {
 							setFirstTab(false);
+							pageCount.current = 1;
+							fetchData();
 						}}
 					>
 						Posters
 					</button>
 				</div>
 				{loading ? <Loader /> : firstTab ? <FirstTab data={data} /> : <SecondTab data={data} />}
+				{loading ? null : data.Response === "False" ? (
+					<div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+						<h2>{data.Error}</h2>
+					</div>
+				) : null}
 				{!showPagination ? null : !isNaN(totalResults.current) ? (
 					<div className={styles.pagination}>
 						<div>

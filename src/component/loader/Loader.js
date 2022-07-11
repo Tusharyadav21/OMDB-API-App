@@ -14,7 +14,7 @@ const Loader = () => {
 							r='20'
 							fill='none'
 							stroke='#f5c518'
-							stroke-width='2'
+							strokeWidth='2'
 						/>
 					</svg>
 				</div>

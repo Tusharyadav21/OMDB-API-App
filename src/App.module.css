@@ -1,10 +1,9 @@
-.container {
+.nav_container {
 	padding: 1rem 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
-
 #Heading {
 	padding: 0.5rem;
 	background-color: #f5c518;
@@ -13,30 +12,6 @@
 	color: black;
 	border-radius: 8px;
 	cursor: default;
-}
-.buttons {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.buttons button {
-	width: 50%;
-	font-size: 1.3rem;
-	font-weight: 600;
-	padding: 1.5rem 0;
-}
-.buttons button:hover {
-	transform: translateY(-5px);
-	transition: all 0.3s ease-in-out;
-}
-.active {
-	color: #fff;
-}
-button {
-	background: none;
-	border: none;
-	color: rgba(255, 255, 255, 0.487);
-	cursor: pointer;
 }
 form {
 	display: flex;
@@ -65,6 +40,30 @@ form input {
 	transform: translateY(-5px);
 	transition: all 0.3s ease-in-out;
 }
+
+.Tab {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+.Tab button {
+	font-size: 1.3rem;
+	font-weight: 600;
+	padding: 1.5rem 0;
+}
+.Tab button:hover {
+	transform: translateY(-5px);
+	transition: all 0.3s ease-in-out;
+}
+.active {
+	color: #fff;
+}
+button {
+	background: none;
+	border: none;
+	color: rgba(255, 255, 255, 0.487);
+	cursor: pointer;
+}
+
 .pagination {
 	display: flex;
 	flex-direction: column;
@@ -86,7 +85,7 @@ form input {
 	outline: 1px solid #f5c518;
 }
 @media screen and (max-width: 860px) {
-	.container {
+	.nav_container {
 		flex-direction: column;
 	}
 	form {
