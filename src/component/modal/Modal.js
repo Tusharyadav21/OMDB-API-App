@@ -5,6 +5,7 @@ import styles from "./modal.module.css";
 const Modal = ({ setModal, el }) => {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState({});
+	const [tab, setTab] = useState("1");
 
 	useEffect(() => {
 		setLoading(true);
@@ -15,6 +16,10 @@ const Modal = ({ setModal, el }) => {
 	}, [el.imdbID]);
 
 	// console.log(data);
+	{
+		/* {console.log(el)} */
+	}
+
 	return (
 		<div className={styles.modalBackground}>
 			<div className={styles.modalContainer}>
@@ -32,49 +37,74 @@ const Modal = ({ setModal, el }) => {
 						src={el.Poster !== "N/A" ? el.Poster : require("../../assets/default_poster.jpg")}
 						alt={el.Title}
 					/>
+
 					{!loading ? (
 						<div className={styles.TextContainer}>
-							<h1>{el.Title}</h1>
-							<div className={styles.col}>
+							<h1>
+								{el.Title} <span>({el.Year})</span>
+							</h1>
+							<div>
+								<span>{data.Type[0].toUpperCase() + data.Type.substring(1)}</span>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<span>{data.Genre}</span>
+							</div>
+							<div className={styles.Modal_Tabs_Container}>
+								<button
+									className={`${tab === "1" ? styles.active : ""}`}
+									onClick={() => setTab("1")}
+								>
+									Overview
+								</button>
+								<button
+									className={`${tab === "2" ? styles.active : ""}`}
+									onClick={() => setTab("2")}
+								>
+									Cast & Crew
+								</button>
+								<button
+									className={`${tab === "3" ? styles.active : ""}`}
+									onClick={() => setTab("3")}
+								>
+									Rating & Awards
+								</button>
+							</div>
+							{tab === "1" ? (
 								<section>
 									<div>
-										<span>{data.Year}</span>
-										&nbsp;&nbsp;&nbsp;
-										<span>{data.Type[0].toUpperCase() + data.Type.substring(1)}</span>{" "}
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										<span>{data.Genre}</span>
+										<span>{data.Plot}</span>
 									</div>
-									{/* <div>
-										<span>{data.Genre}</span>
-									</div> */}
+									<br />
 									<div>
 										Available in : <span>{data.Language}</span>
 									</div>
 									<div>
 										Runtime : <span>{data.Runtime}</span>
 									</div>
+								</section>
+							) : null}
+							{tab === "2" ? (
+								<section>
+									<div>
+										Released On : <span>{data.Released}</span>
+									</div>
+									<div>
+										Directed By : <span>{data.Director}</span>
+									</div>
 									<div>
 										Stars : <span>{data.Actors}</span>
 									</div>
+									<div>
+										Writer : <span>{data.Writer}</span>
+									</div>
+									<div>
+										Awards : <span>{data.Awards}</span>
+									</div>
 								</section>
+							) : null}
+							{tab === "3" ? (
 								<section>
 									<div>
-										IMDB :{" "}
-										<span>
-											{data.imdbRating}/10
-											{/* <svg
-												xmlns='http://www.w3.org/2000/svg'
-												width='24'
-												height='24'
-												class='ipc-icon ipc-icon--star sc-7ab21ed2-4 hLFdut'
-												id='iconContext-star'
-												viewBox='0 0 24 24'
-												fill='#f5c518'
-												role='presentation'
-											>
-												<path d='M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z'></path>
-											</svg> */}
-										</span>
+										IMDB : <span>{data.imdbRating}/10</span>
 									</div>
 									<div>
 										IMDB Votes : <span>{data.imdbVotes}</span>
@@ -85,21 +115,11 @@ const Modal = ({ setModal, el }) => {
 									<div>
 										BoxOffice : <span>{data.imdbRating >= 7 ? "Hit" : "Flop"}</span>
 									</div>
+									<div>
+										Box Collection : <span>{data.BoxOffice}</span>
+									</div>
 								</section>
-							</div>
-							<br />
-							<section>
-								<div className={styles.plot}>
-									<span>{data.Plot}</span>
-								</div>
-								<br />
-								<div>
-									Writer : <span>{data.Writer}</span>
-								</div>
-								<div>
-									Awards : <span>{data.Awards}</span>
-								</div>
-							</section>
+							) : null}
 						</div>
 					) : (
 						<Loader />
