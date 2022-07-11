@@ -25,7 +25,8 @@ const Modal = ({ setModal, el }) => {
 				})
 				.then(() => setLoading(false));
 		}
-	}, [el.imdbID]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div className={styles.modalBackground}>
