@@ -10,8 +10,8 @@ const Modal = ({ setModal, el }) => {
 		setLoading(true);
 		fetch(`http://www.omdbapi.com/?i=${el.imdbID}&apikey=a94a9229`)
 			.then((response) => response.json())
-			.then((data) => setData(data))
-			.then(() => setLoading(false));
+			.then((data) => setData(data));
+		// .then(() => setLoading(false));
 	}, [el.imdbID]);
 
 	// console.log(data);

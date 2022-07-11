@@ -107,7 +107,7 @@ function App() {
 						Posters
 					</button>
 				</div>
-
+				<Loader />
 				{loading ? <Loader /> : firstTab ? <FirstTab data={data} /> : <SecondTab data={data} />}
 				{!showPagination ? null : !isNaN(totalResults.current) ? (
 					<div className={styles.pagination}>
