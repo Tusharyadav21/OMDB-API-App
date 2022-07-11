@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import FirstTab from "./component/firstTab/FirstTab";
 import SecondTab from "./component/secondTab/SecondTab";
 import ScrollButton from "./component/scrollButton/ScrollButton";
 
 import styles from "./App.module.css";
 import Loader from "./component/loader/Loader";
+import { FetchedData } from "./Context";
 
 function App() {
 	const [firstTab, setFirstTab] = useState(true);
@@ -14,6 +15,8 @@ function App() {
 	const [showPagination, setShowPagination] = useState(false);
 	const [data, setData] = useState([]);
 
+	const { prevData, setPrevData } = useContext(FetchedData);
+
 	const totalResults = useRef(1);
 	const pageCount = useRef(1);
 
@@ -22,38 +25,35 @@ function App() {
 		if (name) {
 			setLoading(true);
 			// pageCount.current = 1;
-			if (sessionStorage.getItem(`${name}+${year}+${pageCount.current}`) === null) {
+			if ([name + year + pageCount.current] in prevData) {
+				const result = prevData[name + year + pageCount.current];
+
+				const x = result.totalResults / 10;
+				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
+
+				setData(result);
+				setShowPagination(true);
+				setLoading(false);
+			} else {
 				try {
 					const response = await fetch(
 						`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
 							pageCount.current
 						}&apikey=a94a9229`
 					);
-
 					const result = await response.json();
-
-					console.log(result);
-
 					const x = result.totalResults / 10;
 					totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
 
-					sessionStorage.setItem(`${name}+${year}+${pageCount.current}`, JSON.stringify(result));
-
+					setPrevData({ [name + year + pageCount.current]: result, ...prevData });
 					setData(result);
 					setShowPagination(true);
+					// console.log(prevData);
 				} catch (err) {
 					console.log("Error: " + err.message);
 				} finally {
 					setLoading(false);
 				}
-			} else {
-				const result = JSON.parse(sessionStorage.getItem(`${name}+${year}+${pageCount.current}`));
-				// console.log(result);
-				const x = result.totalResults / 10;
-				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-				setData(result);
-				setShowPagination(true);
-				setLoading(false);
 			}
 		}
 	};
@@ -76,8 +76,6 @@ function App() {
 			fetchData();
 		}
 	};
-
-	// console.log(data);
 
 	return (
 		<>
