@@ -4,7 +4,7 @@ import styles from "./modal.module.css";
 
 const Modal = ({ setModal, el }) => {
 	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState(true);
+	const [data, setData] = useState({});
 
 	useEffect(() => {
 		setLoading(true);

@@ -54,8 +54,26 @@
 		grid-template-columns: 50% 50%;
 	}
 }
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 560px) {
 	.cardContainer {
 		grid-template-columns: 100%;
+	}
+}
+@media screen and (min-width: 1440px) {
+	.cardContainer {
+		margin: 1vw;
+	}
+	.card {
+		margin: 1vw;
+	}
+	.card_body {
+		padding: 2rem;
+	}
+	.card_body h3 {
+		margin: 0 0 1vw 0;
+		font-size: 1.4vw;
+	}
+	.card_body p {
+		font-size: 1.1vw;
 	}
 }
