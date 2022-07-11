@@ -16,9 +16,6 @@ const Modal = ({ setModal, el }) => {
 	}, [el.imdbID]);
 
 	// console.log(data);
-	{
-		/* {console.log(el)} */
-	}
 
 	return (
 		<div className={styles.modalBackground}>
