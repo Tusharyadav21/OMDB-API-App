@@ -30,6 +30,7 @@ function App() {
 				const x = result.totalResults / 10;
 				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
 
+				// console.log(prevData);
 				setData(result);
 				setShowPagination(true);
 				setLoading(false);

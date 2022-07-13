@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { FetchedData } from "../../Context";
 import styles from "./secondTab.module.css";
 
-const SecondTab = (props) => {
+const SecondTab = ({ data }) => {
+	const { images, setImages } = useContext(FetchedData);
+	useEffect(() => {
+		data.Search?.forEach((el) => {
+			if (!(el.imdbID in images)) {
+				setImages({
+					[el.imdbID]: el.Poster,
+					...images,
+				});
+			}
+		});
+	});
+
+	console.log(images);
+
 	return (
 		<div>
 			<div className={styles.cardContainer}>
-				{props.data.Search?.map((el, i) => (
+				{data.Search?.map((el, i) => (
 					<div key={i} className={styles.card}>
 						<div className={styles.card_img}>
 							<img
