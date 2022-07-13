@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FetchedData } from "../../Context";
+import React, { useEffect, useState } from "react";
 import Loader from "../loader/Loader";
 import styles from "./modal.module.css";
 
@@ -8,23 +7,35 @@ const Modal = ({ setModal, el }) => {
 	const [data, setData] = useState({});
 	const [tab, setTab] = useState("1");
 
-	const { prevModalData, setPrevModalData } = useContext(FetchedData);
+	// const { prevModalData, setPrevModalData } = useContext(FetchedData);
 
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	if ([el.imdbID] in prevModalData) {
+	// 		const result = prevModalData[el.imdbID];
+	// 		setData(result);
+	// 		setLoading(false);
+	// 	} else {
+	// 		fetch(`http://www.omdbapi.com/?i=${el.imdbID}&apikey=a94a9229`)
+	// 			.then((response) => response.json())
+	// 			.then((data) => {
+	// 				setData(data);
+	// 				setPrevModalData({ [el.imdbID]: data, ...prevModalData });
+	// 			})
+	// 			.then(() => setLoading(false));
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, []);
 	useEffect(() => {
 		setLoading(true);
-		if ([el.imdbID] in prevModalData) {
-			const result = prevModalData[el.imdbID];
-			setData(result);
-			setLoading(false);
-		} else {
-			fetch(`http://www.omdbapi.com/?i=${el.imdbID}&apikey=a94a9229`)
-				.then((response) => response.json())
-				.then((data) => {
-					setData(data);
-					setPrevModalData({ [el.imdbID]: data, ...prevModalData });
-				})
-				.then(() => setLoading(false));
-		}
+
+		fetch(`http://www.omdbapi.com/?i=${el.imdbID}&apikey=a94a9229`)
+			.then((response) => response.json())
+			.then((data) => {
+				setData(data);
+				// setPrevModalData({ [el.imdbID]: data, ...prevModalData });
+			})
+			.then(() => setLoading(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

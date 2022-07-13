@@ -1,13 +1,19 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import FirstTab from "./component/firstTab/FirstTab";
 import SecondTab from "./component/secondTab/SecondTab";
 import ScrollButton from "./component/scrollButton/ScrollButton";
 
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "./component/store/cardSlice";
+
 import styles from "./App.module.css";
 import Loader from "./component/loader/Loader";
-import { FetchedData } from "./Context";
 
 function App() {
+	const dispatch = useDispatch();
+
+	const reduxData = useSelector((state) => [...state.Card]);
+
 	const [firstTab, setFirstTab] = useState(true);
 	const [name, setName] = useState("");
 	const [year, setYear] = useState("");
@@ -15,64 +21,99 @@ function App() {
 	const [showPagination, setShowPagination] = useState(false);
 	const [data, setData] = useState([]);
 
-	const { prevData, setPrevData } = useContext(FetchedData);
-
 	const totalResults = useRef(1);
 	const pageCount = useRef(1);
 
-	const fetchData = async () => {
-		setName(name.trim());
+	// const checkRedux = () => {
+	// reduxData.forEach((element) => {
+	// 	if (name + year + pageCount.current in element) {
+	// 		// (Object.values(element)[0]);
+	// 		console.log(true);
+	// 		var flag = true;
+	// 		return true;
+	// 	}
+	// 	if (flag === true) {
+	// 		return true;
+	// 	}
+	// });
+	// 	reduxData.find((e) => {
+	// 		console.log(Object.keys(e)[0]);
+	// 		console.log(name + year + pageCount.current);
+	// 		console.log(Object.keys(e)[0] === name + year + pageCount.current);
+	// 	});
+	// };
+
+	// const newFetch = () => {
+	// 	if (!checkRedux()) {
+	// 		fetchData();
+	// 	}
+	// };
+	// console.log(reduxData);
+
+	// const checkRedux = (e) => e.name === name + year + pageCount.current;
+	// reduxData.some(checkRedux);
+
+	// Working
+
+	const check = () => {
+		setName(name.trim().toLowerCase());
+		let flag = false;
 		if (name) {
-			setLoading(true);
-			if ([name + year + pageCount.current] in prevData) {
-				const result = prevData[name + year + pageCount.current];
-
-				const x = result.totalResults / 10;
-				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-
-				// console.log(prevData);
-				setData(result);
-				setShowPagination(true);
-				setLoading(false);
-			} else {
-				try {
-					const response = await fetch(
-						`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
-							pageCount.current
-						}&apikey=a94a9229`
-					);
-					const result = await response.json();
+			reduxData.find((element) => {
+				if (element.name === name + year + pageCount.current) {
+					flag = true;
+					const result = element.result;
 					const x = result.totalResults / 10;
 					totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-
-					setPrevData({ [name + year + pageCount.current]: result, ...prevData });
 					setData(result);
 					setShowPagination(true);
-				} catch (err) {
-					console.log("Error: " + err.message);
-				} finally {
-					setLoading(false);
+					// console.log(element.result);
+					return element.result;
 				}
+			});
+			if (!flag) {
+				fetchData(); // FetchData Here...
 			}
+		}
+	};
+
+	const fetchData = async () => {
+		setLoading(true);
+		try {
+			const response = await fetch(
+				`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
+					pageCount.current
+				}&apikey=a94a9229`
+			);
+			const result = await response.json();
+			const x = result.totalResults / 10;
+			totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
+			dispatch(add({ name: name + year + pageCount.current, result: result }));
+			setData(result);
+			setShowPagination(true);
+		} catch (err) {
+			console.log("Error: " + err.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		pageCount.current = 1;
-		fetchData();
+		check();
 	};
 
 	const handleNext = () => {
 		if (pageCount.current < totalResults.current) {
 			pageCount.current += 1;
-			fetchData();
+			check();
 		}
 	};
 	const handlePrev = () => {
 		if (pageCount.current > 1) {
 			pageCount.current -= 1;
-			fetchData();
+			check();
 		}
 	};
 
