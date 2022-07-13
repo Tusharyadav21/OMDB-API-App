@@ -12,7 +12,7 @@ import Loader from "./component/loader/Loader";
 function App() {
 	const dispatch = useDispatch();
 
-	const reduxData = useSelector((state) => [...state.Card]);
+	const reduxData = useSelector((state) => state.Card);
 
 	const [firstTab, setFirstTab] = useState(true);
 	const [name, setName] = useState("");
@@ -24,54 +24,28 @@ function App() {
 	const totalResults = useRef(1);
 	const pageCount = useRef(1);
 
-	// const checkRedux = () => {
-	// reduxData.forEach((element) => {
-	// 	if (name + year + pageCount.current in element) {
-	// 		// (Object.values(element)[0]);
-	// 		console.log(true);
-	// 		var flag = true;
-	// 		return true;
-	// 	}
-	// 	if (flag === true) {
-	// 		return true;
-	// 	}
-	// });
-	// 	reduxData.find((e) => {
-	// 		console.log(Object.keys(e)[0]);
-	// 		console.log(name + year + pageCount.current);
-	// 		console.log(Object.keys(e)[0] === name + year + pageCount.current);
-	// 	});
-	// };
-
-	// const newFetch = () => {
-	// 	if (!checkRedux()) {
-	// 		fetchData();
-	// 	}
-	// };
-	// console.log(reduxData);
-
-	// const checkRedux = (e) => e.name === name + year + pageCount.current;
-	// reduxData.some(checkRedux);
-
-	// Working
-
 	const check = () => {
+		setLoading(true);
 		setName(name.trim().toLowerCase());
 		let flag = false;
 		if (name) {
+			// eslint-disable-next-line array-callback-return
 			reduxData.find((element) => {
+				// Find Data in Redux Store
 				if (element.name === name + year + pageCount.current) {
-					flag = true;
+					flag = true; // Set flag to true to indicate data is available in redux store.
 					const result = element.result;
-					const x = result.totalResults / 10;
+					const x = result.totalResults / 10; // Calc Total Number of pages.
 					totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
 					setData(result);
 					setShowPagination(true);
+					setLoading(false);
 					// console.log(element.result);
 					return element.result;
 				}
 			});
 			if (!flag) {
+				// Fetch only if data is not available in redux Store
 				fetchData(); // FetchData Here...
 			}
 		}
@@ -100,20 +74,20 @@ function App() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		pageCount.current = 1;
-		check();
+		pageCount.current = 1; // Set Page 1
+		check(); // Submit Button
 	};
 
 	const handleNext = () => {
 		if (pageCount.current < totalResults.current) {
-			pageCount.current += 1;
-			check();
+			pageCount.current += 1; // Set next Page
+			check(); // Next Button
 		}
 	};
 	const handlePrev = () => {
 		if (pageCount.current > 1) {
-			pageCount.current -= 1;
-			check();
+			pageCount.current -= 1; // Set  prev Page
+			check(); // Prev Button
 		}
 	};
 
