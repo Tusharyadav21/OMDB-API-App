@@ -3,14 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Context from "./Context";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import cardData from "./component/store/cardSlice";
+
+const store = configureStore({
+	reducer: {
+		Card: cardData,
+	},
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<Context>
+		<Provider store={store}>
 			<App />
-		</Context>
+		</Provider>
 	</React.StrictMode>
 );
 

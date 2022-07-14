@@ -1,13 +1,19 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import FirstTab from "./component/firstTab/FirstTab";
 import SecondTab from "./component/secondTab/SecondTab";
 import ScrollButton from "./component/scrollButton/ScrollButton";
 
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "./component/store/cardSlice";
+
 import styles from "./App.module.css";
 import Loader from "./component/loader/Loader";
-import { FetchedData } from "./Context";
 
 function App() {
+	const dispatch = useDispatch();
+
+	const reduxData = useSelector((state) => state.Card);
+
 	const [firstTab, setFirstTab] = useState(true);
 	const [name, setName] = useState("");
 	const [year, setYear] = useState("");
@@ -15,64 +21,73 @@ function App() {
 	const [showPagination, setShowPagination] = useState(false);
 	const [data, setData] = useState([]);
 
-	const { prevData, setPrevData } = useContext(FetchedData);
-
 	const totalResults = useRef(1);
 	const pageCount = useRef(1);
 
-	const fetchData = async () => {
-		setName(name.trim());
+	const check = () => {
+		setLoading(true);
+		setName(name.trim().toLowerCase());
+		let flag = false;
 		if (name) {
-			setLoading(true);
-			if ([name + year + pageCount.current] in prevData) {
-				const result = prevData[name + year + pageCount.current];
-
-				const x = result.totalResults / 10;
-				totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-
-				// console.log(prevData);
-				setData(result);
-				setShowPagination(true);
-				setLoading(false);
-			} else {
-				try {
-					const response = await fetch(
-						`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
-							pageCount.current
-						}&apikey=a94a9229`
-					);
-					const result = await response.json();
-					const x = result.totalResults / 10;
+			// eslint-disable-next-line array-callback-return
+			reduxData.find((element) => {
+				// Find Data in Redux Store
+				if (element.name === name + year + pageCount.current) {
+					flag = true; // Set flag to true to indicate data is available in redux store.
+					const result = element.result;
+					const x = result.totalResults / 10; // Calc Total Number of pages.
 					totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
-
-					setPrevData({ [name + year + pageCount.current]: result, ...prevData });
 					setData(result);
 					setShowPagination(true);
-				} catch (err) {
-					console.log("Error: " + err.message);
-				} finally {
 					setLoading(false);
+					// console.log(element.result);
+					return element.result;
 				}
+			});
+			if (!flag) {
+				// Fetch only if data is not available in redux Store
+				fetchData(); // FetchData Here...
 			}
+		}
+	};
+
+	const fetchData = async () => {
+		setLoading(true);
+		try {
+			const response = await fetch(
+				`http://www.omdbapi.com/?s=${name.trim()}&y=${year}&page=${
+					pageCount.current
+				}&apikey=a94a9229`
+			);
+			const result = await response.json();
+			const x = result.totalResults / 10;
+			totalResults.current = x >= parseInt(x) ? parseInt(x) + 1 : parseInt(x);
+			dispatch(add({ name: name + year + pageCount.current, result: result }));
+			setData(result);
+			setShowPagination(true);
+		} catch (err) {
+			console.log("Error: " + err.message);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		pageCount.current = 1;
-		fetchData();
+		pageCount.current = 1; // Set Page 1
+		check(); // Submit Button
 	};
 
 	const handleNext = () => {
 		if (pageCount.current < totalResults.current) {
-			pageCount.current += 1;
-			fetchData();
+			pageCount.current += 1; // Set next Page
+			check(); // Next Button
 		}
 	};
 	const handlePrev = () => {
 		if (pageCount.current > 1) {
-			pageCount.current -= 1;
-			fetchData();
+			pageCount.current -= 1; // Set  prev Page
+			check(); // Prev Button
 		}
 	};
 
