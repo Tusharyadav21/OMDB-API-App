@@ -20,8 +20,8 @@ const Modal = ({ setModal, el }) => {
 	}, []);
 
 	return (
-		<div className={styles.modalBackground}>
-			<div className={styles.modalContainer}>
+		<div className={styles.modalBackground} onClick={() => setModal(false)}>
+			<div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
 				<div className={styles.CloseBtn}>
 					<button
 						onClick={() => {
